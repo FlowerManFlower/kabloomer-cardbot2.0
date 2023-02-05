@@ -1,0 +1,146 @@
+import psycopg2
+from psycopg2 import Error
+from credentials import token, db_credentials
+
+def createTable():
+	try:
+		print("Trying")
+		connection = psycopg2.connect(db_credentials)
+		print("connected")
+		cursor = connection.cursor()
+
+		create_table_query = '''CREATE TABLE hero_to_card
+								(id SERIAL PRIMARY KEY,
+								heroid int,
+								cardid int);'''
+
+		cursor.execute(create_table_query)
+		connection.commit()
+		print("Table \"hero_to_card\" Addition Successful!")
+
+		# Print PostgreSQL version
+		cursor.execute("SELECT version();")
+		record = cursor.fetchone()
+		print("You are connected to - ", record,"\n")
+
+	except (Exception, psycopg2.Error) as error :
+		print ("Error adding table to PostgreSQL", error)
+	finally:
+		#closing database connection.
+			if(connection):
+				cursor.close()
+				connection.close()
+				print("PostgreSQL connection is closed")
+
+def dropTable():
+	try:
+		print("Trying")
+		connection = psycopg2.connect(db_credentials)
+		print("connected")
+		cursor = connection.cursor()
+
+		delete_table_query = '''DROP TABLE hero_to_card'''
+
+		cursor.execute(delete_table_query)
+		connection.commit()
+		print("Table \"hero_to_card\" Deletion Successful!")
+
+		# Print PostgreSQL version
+		cursor.execute("SELECT version();")
+		record = cursor.fetchone()
+		print("You are connected to - ", record,"\n")
+
+	except (Exception, psycopg2.Error) as error :
+		print ("Error removing table from PostgreSQL", error)
+	finally:
+		#closing database connection.
+			if(connection):
+				cursor.close()
+				connection.close()
+				print("PostgreSQL connection is closed")
+
+
+#Adding to database
+def addToTable(record):
+	try:
+		connection = psycopg2.connect(db_credentials)
+		cursor = connection.cursor()
+
+		postgres_insert_query = """ INSERT INTO hero_to_card(heroid, cardid) VALUES %s"""
+		cursor.execute(postgres_insert_query, (record,))
+
+		connection.commit()
+		print("Row added to table \"hero_to_card\"")
+
+	except (Exception, psycopg2.Error) as error :
+		print ("Error checking table in PostgreSQL", error)
+	finally:
+		#closing database connection.
+			if(connection):
+				cursor.close()
+				connection.close()
+				print("PostgreSQL connection is closed")
+
+def addManyToTable(recordTuple):
+	try:
+		connection = psycopg2.connect(db_credentials)
+		cursor = connection.cursor()
+
+		args_str = ','.join(cursor.mogrify("(%s)", x).decode("utf-8") for x in recordTuple)
+		print(args_str)
+		cursor.execute("INSERT INTO hero_to_card(heroid, cardid) VALUES " + args_str)
+
+		connection.commit()
+		print("Multiple rows added to \"hero_to_card\"")
+
+	except (Exception, psycopg2.Error) as error :
+		print ("Error checking table in PostgreSQL", error)
+	finally:
+		#closing database connection.
+			if(connection):
+				cursor.close()
+				connection.close()
+				print("PostgreSQL connection is closed")
+
+def deleteFromTable(recordId):
+	try:
+		connection = psycopg2.connect(db_credentials)
+		cursor = connection.cursor()
+
+		postgres_delete_query = """ Delete from hero_to_card where id = %s"""
+		cursor.execute(postgres_delete_query, (recordId, ))
+		connection.commit()
+		print("Row deleted from \"hero_to_card\"")
+		
+	except (Exception, psycopg2.Error) as error :
+		print ("Error checking table in PostgreSQL", error)
+	finally:
+		#closing database connection.
+			if(connection):
+				cursor.close()
+				connection.close()
+				print("PostgreSQL connection is closed")
+
+def pullFromTable(column, identifier):
+	try:
+		connection = psycopg2.connect(db_credentials)
+		cursor = connection.cursor()
+
+		postgres_pull_query = """ SELECT * from hero_to_card where id = %s"""
+		cursor.execute(postgres_delete_query, (recordId, ))
+		results = cursor.fetchall()
+		print("Results from \"hero_to_card\" where id = %s" % (recordId))
+		for row in results:
+			for col in row:
+				print(col, end='')
+			print('')
+
+	except (Exception, psycopg2.Error) as error :
+		print ("Error checking table in PostgreSQL", error)
+	finally:
+		#closing database connection.
+			if(connection):
+				cursor.close()
+				connection.close()
+				print("PostgreSQL connection is closed")
+
