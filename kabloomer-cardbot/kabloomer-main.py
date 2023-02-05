@@ -61,7 +61,7 @@ help_message = discord.Embed(
 
 elo_help_message = discord.Embed(
     title="<:PepeSword:991101661902807181> Elo Bot Commands:",
-    description="<:discord_bulletin:993756222878650429> Use **-elo** `@winner` `@loser` to report the outcome of a set.\n\n<:discord_bulletin:993756222878650429> When you do this, the bot will reply with a message **asking the loser to __confirm__ the report.**\n\n<:discord_bulletin:993756222878650429> The loser must **react** to the message using <:Verify:1070632429322248212> in order to __**confirm**__ the results.\n\n<:discord_bulletin:993756222878650429> Use `?elo-score` to view your current **elo score.**\n",
+    description="<:discord_bulletin:993756222878650429> Use **?elo** `@winner` `@loser` to report the outcome of a set.\n\n<:discord_bulletin:993756222878650429> When you do this, the bot will reply with a message **asking the loser to __confirm__ the report.**\n\n<:discord_bulletin:993756222878650429> The loser must **react** to the message using <:Verify:1070632429322248212> in order to __**confirm**__ the results.\n\n<:discord_bulletin:993756222878650429> Use `?elo-score` to view your current **elo score.**\n",
     color=discord.Color.red()
 )
 
