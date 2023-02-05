@@ -1,0 +1,1 @@
+worker: python3 kabloomer-cardbot/kabloomer-main.py
