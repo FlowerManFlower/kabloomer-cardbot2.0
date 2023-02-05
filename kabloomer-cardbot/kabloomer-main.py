@@ -53,7 +53,7 @@ IS_NOT_FUZZY = False
 
 help_message = discord.Embed(
     title="<:Surprise_Box:1043602667882172548> Bot Commands:",
-    description="<:discord_bulletin:993756222878650429> **Use** `[[Card Name]]` to return a specific card's information. __More than one card can be requested at one time.__\n\n<:discord_bulletin:993756222878650429> **Use** `{{Hero Name}}` to return a specific Hero's information. More than one Hero can be requested at one time.\n\n<:discord_bulletin:993756222878650429> **Use** `-fuzzy` **at the start of a card or Hero call to return a list of closest matches instead of a specific result.**\n\n<:discord_bulletin:993756222878650429> **Use** `-help-elo` to get a list of **__elo commands__**",
+    description="<:discord_bulletin:993756222878650429> **Use** `[[Card Name]]` to return a specific card's information. __More than one card can be requested at one time.__\n\n<:discord_bulletin:993756222878650429> **Use** `{{Hero Name}}` to return a specific Hero's information. More than one Hero can be requested at one time.\n\n<:discord_bulletin:993756222878650429> **Use** `-fuzzy` **at the start of a card or Hero call to return a list of closest matches instead of a specific result.**\n\n<:discord_bulletin:993756222878650429> **Use** `?help-elo` to get a list of **__elo commands__**",
     color=discord.Color.blue()
 )
 
@@ -61,7 +61,7 @@ help_message = discord.Embed(
 
 elo_help_message = discord.Embed(
     title="<:PepeSword:991101661902807181> Elo Bot Commands:",
-    description="<:discord_bulletin:993756222878650429> Use **-elo** `@winner` `@loser` to report the outcome of a set.\n\n<:discord_bulletin:993756222878650429> When you do this, the bot will reply with a message **asking the loser to __confirm__ the report.**\n\n<:discord_bulletin:993756222878650429> The loser must **react** to the message using <:Verify:1070632429322248212> in order to __**confirm**__ the results.\n\n<:discord_bulletin:993756222878650429> Use `-elo-score` to view your current **elo score.**\n",
+    description="<:discord_bulletin:993756222878650429> Use **-elo** `@winner` `@loser` to report the outcome of a set.\n\n<:discord_bulletin:993756222878650429> When you do this, the bot will reply with a message **asking the loser to __confirm__ the report.**\n\n<:discord_bulletin:993756222878650429> The loser must **react** to the message using <:Verify:1070632429322248212> in order to __**confirm**__ the results.\n\n<:discord_bulletin:993756222878650429> Use `?elo-score` to view your current **elo score.**\n",
     color=discord.Color.red()
 )
 
@@ -85,15 +85,15 @@ async def on_message(message):
 		if(database_was_regenerated):
 			return
 
-		elif(message.content.startswith('-help-elo')):
+		elif(message.content.startswith('?help-elo')):
 			await message.channel.send(embed=elo_help_message)
 
-		elif(message.content.startswith('-elo-score')):
+		elif(message.content.startswith('?elo-score')):
     			score = getElo(message.author.name, message.author.id)
     			embed = discord.Embed(title="Elo Score", description="Your Elo Score is %s" % score, color=0xff0000)
     			await message.channel.send(embed=embed, delete_after=60)
 
-		elif message.content.startswith("-elo-leaderboard"):
+		elif message.content.startswith("?elo-leaderboard"):
 			leaderboard = getLeaderboard()
 			embed = discord.Embed(
 				title="<:List:990718262536966194> Score Leaderboard",
@@ -115,7 +115,7 @@ async def on_message(message):
 												\nWinner: [{names_mentioned[0]}] ({results[0]} -> {results[1]})\
 												\nLoser:  [{names_mentioned[1]}] ({results[2]} -> {results[3]})")
 
-		elif(message.content.startswith('-elo')):
+		elif(message.content.startswith('?elo')):
 			if verified_id in [role.id for role in message.author.roles] or message.author.id == chombler_id:
 				names_mentioned = [mention.name for mention in message.mentions]
 				ids_mentioned = [mention.id for mention in message.mentions]
@@ -135,7 +135,7 @@ async def on_message(message):
 			else:
 				await message.channel.send("You must be verified in order to report matches", delete_after = 60)
 
-		elif(message.content.startswith('-help')):
+		elif(message.content.startswith('?help')):
 			logRequest(message.author.name, message.content, 3, None)
 			await message.channel.send(embed=help_message)
 
